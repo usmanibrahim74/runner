@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
+    
+    <title>Runner</title>
+    <style>
+        .runner-btn{
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    
+
+    <div class="container my-5">
+        <div class="row py-5">
+            <div class="col-lg-8 col-md-10 offset-lg-2 offset-md-1">
+                <form action="">
+                    <div class="form-group">
+                        <input type="text" class="form-control form-control-lg" id="runner-input" readonly>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-4 my-2">
+                            <a href="#" class="btn btn-outline-primary btn-lg btn-block runner-btn" data-value="7">7</a>
+                        </div>
+                        <div class="col-4 my-2">
+                            <a href="#" class="btn btn-outline-primary btn-lg btn-block runner-btn" data-value="8">8</a>
+                        </div>
+                        <div class="col-4 my-2">
+                            <a href="#" class="btn btn-outline-primary btn-lg btn-block runner-btn" data-value="9">9</a>
+                        </div>
+                        <div class="col-4 my-2">
+                            <a href="#" class="btn btn-outline-primary btn-lg btn-block runner-btn" data-value="4">4</a>
+                        </div>
+                        <div class="col-4 my-2">
+                            <a href="#" class="btn btn-outline-primary btn-lg btn-block runner-btn" data-value="5">5</a>
+                        </div>
+                        <div class="col-4 my-2">
+                            <a href="#" class="btn btn-outline-primary btn-lg btn-block runner-btn" data-value="6">6</a>
+                        </div>
+                        <div class="col-4 my-2">
+                            <a href="#" class="btn btn-outline-primary btn-lg btn-block runner-btn" data-value="1">1</a>
+                        </div>
+                        <div class="col-4 my-2">
+                            <a href="#" class="btn btn-outline-primary btn-lg btn-block runner-btn" data-value="2">2</a>
+                        </div>
+                        <div class="col-4 my-2">
+                            <a href="#" class="btn btn-outline-primary btn-lg btn-block runner-btn" data-value="3">3</a>
+                        </div>
+                        <div class="col-4 my-2">
+                            <a href="#" class="btn btn-outline-primary btn-lg btn-block runner-btn" data-value="clear">C</a>
+                        </div>
+                        <div class="col-4 my-2">
+                            <a href="#" class="btn btn-outline-primary btn-lg btn-block runner-btn" data-value="0">0</a>
+                        </div>
+                        <div class="col-4 my-2">
+                            <a href="#" class="btn btn-outline-primary btn-lg btn-block runner-btn" data-value="backspace"><i class="fas fa-backspace"></i></a>
+                        </div>
+
+                        <div class="col-4 offset-4 my-2">
+                            <a href="#" class="btn btn-outline-primary btn-lg btn-block runner-btn">Get Results</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+
+
+    <script src="assets/jquery/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $('.runner-btn').click(function(){
+                var value = $(this).attr('data-value');
+                var currentValue = $('#runner-input').val();
+                if(value != 'clear' && value!='backspace'){
+                    $('#runner-input').val(currentValue+value);
+                }
+                else if(value == 'clear'){
+                    $('#runner-input').val('');
+                }else if(value == 'backspace'){
+                    $('#runner-input').val(currentValue.slice(0,-1));
+                }
+            });
+
+
+            $(document).on('keyup',function(e){
+                var pressed = e.which;
+                var currentValue = $('#runner-input').val();
+                if(pressed>=96 && pressed<=105){
+                    var number = pressed-96;
+                    $('#runner-input').val(currentValue+number);
+                }
+                else if(pressed==8){
+                    $('#runner-input').val(currentValue.slice(0,-1));
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
