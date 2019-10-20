@@ -66,23 +66,28 @@
         }
 
         .runner-btn:hover,
-        .runner-btn .fas:hover,
         .runner-btn:focus,
-        .runner-btn .fas:focus {
-            color: #2a5d84 !important;
-
+        .runner-btn:active {
+            background-color: #2a5d84 !important;
+            color: #fff !important;
+            -webkit-box-shadow: 0 5px 11px 0 rgba(42, 93, 132, .18), 0 4px 15px 0 rgba(42, 93, 132, .15);
+            box-shadow: 0 5px 11px 0 rgba(42, 93, 132, .18), 0 4px 15px 0 rgba(42, 93, 132, .15);
+            outline: 0;
         }
 
-        .runner-btn.back {
-            padding: 2vh !important;
+        .runner-btn:hover .fas,
+        .runner-btn:focus .fas,
+        .runner-btn:active .fas {
+            color: #fff !important;
         }
+
 
         .runner-btn .fas {
             padding: 0 !important;
             font-size: 40px !important;
-            line-height: 0;
+            /* line-height: 0; */
             bottom: 10px;
-            right: 3px;
+            /* right: 3px; */
         }
 
         .top-right-dots {
@@ -139,7 +144,11 @@
 
         .btn-get-results:hover,
         .btn-get-results:focus {
-            color: #2a5d84 !important;
+            color: #fff !important;
+            background-color: #2a5d84 !important;
+            -webkit-box-shadow: 0 5px 11px 0 rgba(42, 93, 132, .18), 0 4px 15px 0 rgba(42, 93, 132, .15);
+            box-shadow: 0 5px 11px 0 rgba(42, 93, 132, .18), 0 4px 15px 0 rgba(42, 93, 132, .15);
+            outline: 0;
         }
 
         .logo {
@@ -270,10 +279,13 @@
                 top: 0;
             }
         }
-        .btn{
-            height:auto;
+
+        .btn {
+            height: auto;
         }
-        .btn-print, .btn-done{
+
+        .btn-print,
+        .btn-done {
             font-size: 24px !important;
         }
     </style>
@@ -387,12 +399,17 @@
                 <div class="modal-body" id="modal-body">
                     <div class="container-fluid">
                         <div class="row pt-1">
-                            <div class="col-10">
+                            <div class="col-12 text-center d-block d-md-none mb-3">
+                                <a href="#">
+                                    <img src="assets/images/logo.png" class="img-fluid logo" alt="">
+                                </a>
+                            </div>
+                            <div class="col-md-10">
                                 <h2 class="bib-title">Freedom Run</h2>
                                 <h4 class="bib-venue">Held on 2018-07-04 in Prove, UT</h4>
                                 <h5>10k Bib 745</h5>
                             </div>
-                            <div class="col-2 text-center">
+                            <div class="col-md-2 text-center d-none d-md-block">
                                 <a href="#">
                                     <img src="assets/images/logo.png" class="img-fluid logo" alt="">
                                 </a>
@@ -417,7 +434,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btn-print"><i class="fas fa-print" style="font-size: 24px;"></i>
+                    <button type="button" class="btn btn-primary btn-print"><i class="fas fa-print"
+                            style="font-size: 24px;"></i>
                         Print</button>
                     <button type="button" class="btn btn-secondary btn-done" data-dismiss="modal">Done</button>
                 </div>
@@ -434,7 +452,20 @@
     <script src="assets/bootstrap/js/mdb.min.js"></script>
 
     <script>
+
         $(document).ready(function () {
+
+            modal = false;
+
+            $('#exampleModal').on('show.bs.modal', function () {
+                modal = true;
+            });
+            $('#exampleModal').on('hide.bs.modal', function () {
+                modal = false;
+                bib = $('.bib-number').val('');
+            });
+
+
             $('.runner-btn').click(function () {
                 var value = $(this).attr('data-value');
                 var currentValue = $('.bib-number').val();
@@ -450,55 +481,6 @@
                 currentValue = $('.bib-number').val();
                 $('.btn-get-results').html('Get Results For ' + currentValue);
             });
-
-
-        });
-
-        $(document).ready(function () {
-            var ctrlDown = false,
-                ctrlKey = 16,
-                vKey = 86,
-                cKey = 67;
-
-            $(document).keydown(function (e) {
-                if (e.keyCode == ctrlKey) ctrlDown = true;
-            }).keyup(function (e) {
-                if (e.keyCode == ctrlKey) ctrlDown = false;
-            });
-            $(document).keydown(function (e) {
-                $('.bib-number').focus();
-                if (!ctrlDown && (isNumber(e))) {
-                    var number = true;
-                } else {
-                    var number = false;
-                }
-
-                if (!number && e.keyCode != 8) {
-                    e.preventDefault();
-                }
-
-            }).keyup(function () {
-                var value = $('.bib-number').val();
-                $('.btn-get-results').html('Get Results For ' + value);
-
-            });
-
-            function isNumber(e) {
-                var key = e.keyCode;
-                if ((key != 109 && key != 107) && (key != 189 && key != 187)) {
-                    return true;
-                }
-                return false;
-            }
-            // function isNumber(e){
-            //     var key = e.keyCode;
-            //     console.log(key);
-            //     if(( key >= 48 && key <= 57 ) || ( key >= 96 && key <= 105 )){
-            //         return true;
-            //     }
-            //     return false;
-            // }
-
             $('.btn-get-results').click(function () {
                 var bib = $('.bib-number').val();
                 if (bib == '') {
@@ -514,13 +496,50 @@
                     }, 3000)
                 }
             });
-
             $('.btn-print').click(function () {
                 printElement(document.getElementById("modal-body"));
-
-
                 window.print();
             });
+
+            $(document).keydown(function (e) {
+                if (!modal) {
+                    $('.bib-number').focus();
+                    if (allowedKey(e)) {
+                        if (e.keyCode == 67) {
+                            $('.bib-number').val('');
+                        } else if (e.keyCode == 13) {
+                            $('.btn-get-results').trigger('click');
+                        }
+                    } else {
+                        e.preventDefault();
+                    }
+                } else {
+
+                    console.log(e.keyCode);
+                    if (e.keyCode == 80) {
+                        $('.btn-print').trigger('click');
+                    } else if (e.keyCode == 13) {
+                        $('.btn-done').trigger('click');
+                    }
+                }
+
+
+            }).keyup(function () {
+                var value = $('.bib-number').val();
+                $('.btn-get-results').html('Get Results For ' + value);
+            });
+
+            function allowedKey(e) {
+                var key = e.keyCode;
+                if ((key != 109 && key != 107) && (key != 189 && key != 187 && key != 38 && key != 40)) {
+                    return true;
+                } else if (key == 67 || key == 8 || key == 13) {
+                    return true;
+                }
+                return false;
+            }
+
+
 
 
             function showLoader() {
@@ -535,23 +554,25 @@
             function loaderMessage(message) {
                 $('.loader-message').html(message)
             }
-        });
+            function printElement(elem) {
+                var domClone = elem.cloneNode(true);
 
-        function printElement(elem) {
-            var domClone = elem.cloneNode(true);
+                var $printSection = document.getElementById("printSection");
 
-            var $printSection = document.getElementById("printSection");
+                if (!$printSection) {
+                    var $printSection = document.createElement("div");
+                    $printSection.id = "printSection";
+                    document.body.appendChild($printSection);
+                }
 
-            if (!$printSection) {
-                var $printSection = document.createElement("div");
-                $printSection.id = "printSection";
-                document.body.appendChild($printSection);
+                $printSection.innerHTML = "";
+
+                $printSection.appendChild(domClone);
             }
 
-            $printSection.innerHTML = "";
+        });
 
-            $printSection.appendChild(domClone);
-        }
+
 
     </script>
 
